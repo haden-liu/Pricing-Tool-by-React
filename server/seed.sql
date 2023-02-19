@@ -1,0 +1,7 @@
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('Cathay Pacific',150,17.5,1.25,'Hong Kong','Melbourne','2023-02-15');
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('Singapore Airline',130,16.5,1.15,'Singapore','Sydney','2023-02-28');
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('China Southern Airline',125,15.5,1.25,'Shenzhen','Sydney','2023-02-28');
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('Malaysian Airline',130,15.5,1.35,'Kuala Lumper','Brisbane','2023-02-28');
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('Air New Zealand',110,15.5,1.35,'Aucklandr','Perth','2023-02-28');
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('Air China',120,15.5,1.35,'Shanghai','Brisbane','2023-02-28');
+insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ('China Airline',120,15.5,1.45,'Taipei','Melbourne','2023-02-28');
