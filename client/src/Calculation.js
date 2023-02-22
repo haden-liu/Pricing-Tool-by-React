@@ -1,4 +1,8 @@
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { HistoryRouterProps } from "react-router-dom";
 
 import './App.css';
 
@@ -8,40 +12,72 @@ import axios from 'axios'
 
 import './App.css';
 import Rates from './Routes';
+import { MRT_TablePagination } from "material-react-table";
 
 export default function Calculation() {
-    const [inputs, setInputs] = useState({});
-    const [totalInputs, setTotalInputs] = useState([])
+    const [inputs, setInputs] = useState([{
+        departure:'',
+        arrival:'',
+        length: '',
+        width:'',
+        height:'',
+        weight:'',
+        amount:''
+    }]);
+    const [totalInputs, setTotalInputs] = useState()
+
+    const nav = useNavigate()
 
     const addNewItem = () => {
-        
-        const newLWH = document.createElement('div');
-        newLWH.innerHTML = "<label for=''>Length in CM</label>" +
-                        "<input type='float'  name='length' onChange='handleChange'></input>" +
-                        "<label for = ''>Width in CM</label>" + 
-                        "<input type = 'float' name='width' onChange='handleChange'></input>" +
-                        "<label for = ''>Height in CM</label>" +
-                        "<input type = 'float' name='height' onChange='handleChange'></input>" +
-                        "<label for = ''>Weight in KG</label>" +
-                        "<input type = 'float' name='weight' onChange='handleChange'></input>" +
-                        "<label for = ''>Amount</label>" +
-                        "<input type = 'number' name='amount' onChange='handleChange'></input>"
-                        
-        document.getElementById('newAddedItem').appendChild(newLWH)
+        setInputs([...inputs, {
+            departure:'',
+            arrival:'',
+            length: '',
+            width:'',
+            height:'',
+            weight:'',
+            amount:''
+        }])
+ 
 
     }
 
-    const handleChange = (e) => {
- 
-        const name = e.target.name;
-        const value = e.target.value;
-        setInputs(values => ({...values, [name]: value}))
-      }
+    const handleChange = (index, event)=>{
+    
+        const { name, value } = event.target;
+        console.log({ name, value })
+        console.log(index)
+        const list = [...inputs];
+        list[index][name] = value;
+        console.log(list)
+        setInputs(list);  
+     
+    }
+    
+    useEffect(()=>{
+        console.log(inputs)
+    },[])
+    
+
+
+    // useEffect(()=> {
+    //     window.localStorage.getItem('inputs')
+    // })
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(inputs)
+        console.log(parseFloat(inputs[0].length) * 2)
+        nav("/calcresult", {state:inputs})
+  
+        
+     
     }
+
+    // useEffect (() => {
+    //     console.log(totalInputs)
+    // }, [])
 
     return(
         <div className="app">
@@ -60,48 +96,46 @@ export default function Calculation() {
             </ul>
         </nav>
         <p className="add_rate_title">Rate Calculation Form</p>
-       
-        <form onSubmit={handleSubmit}>
-            <label for = ''>Departure</label>
-            <input type="text"  name="loading_port" onChange={handleChange}></input>
-            <br></br>
-            <label for = ''>Arrival</label>
-            <input type="text"  name="discharging_port" onChange={handleChange}></input>
-            <br></br>
-            
-            <div class = 'lwh'>
-                <div id='FirstForm'>
-                    <label for = ''>Length in CM</label>
-                    <input type = "float" name="length" onChange={handleChange}></input>
-                    <label for = ''>Width in CM</label>
-                    <input type = "float" name="width" onChange={handleChange}></input>
-                    <label for = ''>Height in CM</label>
-                    <input type = "float" name="height" onChange={handleChange}></input>
-                    <label for = ''>Weight in KG</label>
-                    <input type = "float" name="weight" onChange={handleChange}></input>
-                    <label for = ''>Amount</label>
-                    <input type = "number" name="amount" onChange={handleChange}></input>
-                    
-                </div>
-                <br></br>
+        <table>
+            <tr>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Length</th>
+                <th>Width</th>
+                <th>height</th>
+                <th>weight</th>
+                <th>Amount</th>
+            </tr>
 
+        {
+            inputs.map((input, index) => {
+                const {departure, arrival, length, width, height, weight, amount} = input
+
+                return (
                 
-                <div id = 'newAddedItem'></div>
+                    <tr key = {index}>
+                        <td><input type = 'text' name = 'departure' value = {departure} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'text' name = 'arrival' value = {arrival} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'number' name = 'length' value = {length} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'number' name = 'width' value = {width} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'number' name = 'height' value = {height} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'number' name = 'weight' value = {weight} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'number' name = 'amount' value = {amount} onChange={(event)=>handleChange(index, event)}></input></td>
+                    </tr>  
 
-
-
-            </div>
+                )
+            })
+        }
+        </table>
+        <div className="row">
             <button onClick={addNewItem}>Add New</button>
-
-            <input type="submit" />
- 
-   
-
-           
-    
-   
-        </form>
-    
+            {/* <Link to = {{
+                pathname: '/calcresult',
+                state: inputs
+            }}>Submit</Link> */}
+            <button onClick = {handleSubmit}>Submit</button>
+            <Link to='/calcresult' state={inputs}>Calculate</Link>
+        </div>
 
         </div>
     )
