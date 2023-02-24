@@ -39,6 +39,21 @@ app.delete('/rates/:id', (req, res)=> {
     });
 })
 
+// get rate by by departure and Arrival
+app.get('/rates/:departure/:arrival', (req, res)=>{
+    const departure = req.params.departure
+    const arrival = req.params.arrival
+    
+
+    const sql = `select carrier, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, discharging_port, valid_date from rates where loading_port = '${departure}' and discharging_port = '${arrival}'`
+
+    db.query(sql).then(({ rows }) => {
+
+  
+          res.json(rows)
+    
+})})
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
   });

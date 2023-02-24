@@ -4,8 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
+import axios from 'axios';
+
 
 export default function Calcresult (props) {
+
+    const [basicrates, setBasicRates] = ([])
+
+    
 
     // const { departure, arrival, length, width, height, weight, amount } = this.props.location
     // const [details, setDetails] = useState(this.props.location.state)
@@ -14,6 +20,47 @@ export default function Calcresult (props) {
     const data = location.state
 
     console.log(data)
+
+    // data.map((object)=>[
+
+    //     axios
+    //         .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
+    //         .then((response)=>{
+    //             console.log(response.data)
+    //         })    
+
+    // ])
+
+    // axios.all(data.map((object)=> {
+    //     axios
+    //         .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
+    //         .then((response)=> {
+    //             console.log(response.data)
+    //             let list = response.data
+                
+    //         })
+
+    // }))
+
+    useEffect(()=> {
+            let basicArr = []
+            data.map((object)=>{
+            axios
+                .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
+                .then((response)=> {
+                    let list = response.data
+                    console.log(list)
+                    console.log(typeof(list))
+                    basicArr.push(list)
+                    })
+        });
+        console.log(basicArr)
+        
+    },[])
+
+
+   
+    
 
     // const { departure, arrival, length, width, height, weight, amount } = (props.location && props.location.state) || {};
     // console.log(props.inputs)
@@ -25,7 +72,7 @@ export default function Calcresult (props) {
 
             <div>
                 <p>results</p>
-                <p>{data[0].departure}</p>
+                <p>{basicrates}</p>
              
             </div>
         </div>

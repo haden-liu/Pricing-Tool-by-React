@@ -15,44 +15,86 @@ import Rates from './Routes';
 import { MRT_TablePagination } from "material-react-table";
 
 export default function Calculation() {
-    const [inputs, setInputs] = useState([{
-        departure:'',
-        arrival:'',
-        length: '',
-        width:'',
-        height:'',
-        weight:'',
-        amount:''
-    }]);
-    const [totalInputs, setTotalInputs] = useState()
+    // const [inputs, setInputs] = useState([{
+    //     departure:'',
+    //     arrival:'',
+    //     length: '',
+    //     width:'',
+    //     height:'',
+    //     weight:'',
+    //     amount:''
+    // }]);
+    // const [locationInputs, setLocationInputs] = useState(['Sydney'])
+    const [inputs, setInputs] = useState(
+        {
+            locations: {departure: '', arrival: ''},
+            details: [{
+                length: '',
+                width:'',
+                height:'',
+                weight:'',
+                amount:''
+            }]
+        }
+    )
+   
 
     const nav = useNavigate()
 
     const addNewItem = () => {
         setInputs([...inputs, {
-            departure:'',
-            arrival:'',
-            length: '',
-            width:'',
-            height:'',
-            weight:'',
-            amount:''
+            locations: {departure: '', arrival: ''},
+            details: [{
+                length: '',
+                width:'',
+                height:'',
+                weight:'',
+                amount:''}]
         }])
- 
-
     }
 
-    const handleChange = (index, event)=>{
+    // const addNewItem = () => {
+    //     setInputs([...inputs, {
+    //         departure:'',
+    //         arrival:'',
+    //         length: '',
+    //         width:'',
+    //         height:'',
+    //         weight:'',
+    //         amount:''
+    //     }])
+    // }
+
+    const handleChangeDept = (event) => {
+        const {name, value} = event.target
+        console.log({ name, value})
+        setInputs({...inputs, locations: {
+            ...inputs.locations,
+            departure: value
+        }})
+    }
+
+    const handleChangeArriv = (event) => {
+        const {name, value} = event.target
+        console.log({ name, value})
+        setInputs({...inputs, locations: {
+            ...inputs.locations,
+            arrival: value
+        }})
+    }
+
+
+    // const handleChange = (index, event)=>{
     
-        const { name, value } = event.target;
-        console.log({ name, value })
-        console.log(index)
-        const list = [...inputs];
-        list[index][name] = value;
-        console.log(list)
-        setInputs(list);  
+    // //     const { name, value } = event.target;
+    // //     console.log({ name, value })
+    // //     console.log(index)
+    // //     const list = [...inputs['details']];
+    // //     list[index][name]= value;
+    // //     console.log(list)
+    // //     setInputs(list);  
      
-    }
+    // // }
     
     useEffect(()=>{
         console.log(inputs)
@@ -70,6 +112,7 @@ export default function Calculation() {
         console.log(inputs)
         console.log(parseFloat(inputs[0].length) * 2)
         nav("/calcresult", {state:inputs})
+        // nav('/calcresult', {state:locationInputs})
   
         
      
@@ -100,6 +143,20 @@ export default function Calculation() {
             <tr>
                 <th>Departure</th>
                 <th>Arrival</th>
+            </tr>
+    
+                <tr>
+                <td><input type = 'text' name = 'departure'   onChange={(event)=>handleChangeDept(event)}></input></td>
+                <td><input type = 'text' name = 'arrival'   onChange={(event)=>handleChangeArriv(event)}></input></td>
+                </tr>
+            
+        
+        </table>
+
+        <table>
+            <tr>
+                {/* <th>Departure</th>
+                <th>Arrival</th> */}
                 <th>Length</th>
                 <th>Width</th>
                 <th>height</th>
@@ -108,33 +165,31 @@ export default function Calculation() {
             </tr>
 
         {
-            inputs.map((input, index) => {
-                const {departure, arrival, length, width, height, weight, amount} = input
+            // inputs.map((input, index) => {
+            //     const {length, width, height, weight, amount} = input.details
 
-                return (
+            //     return (
                 
-                    <tr key = {index}>
-                        <td><input type = 'text' name = 'departure' value = {departure} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'text' name = 'arrival' value = {arrival} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'number' name = 'length' value = {length} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'number' name = 'width' value = {width} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'number' name = 'height' value = {height} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'number' name = 'weight' value = {weight} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'number' name = 'amount' value = {amount} onChange={(event)=>handleChange(index, event)}></input></td>
-                    </tr>  
+            //         <tr key = {index}>
+            //             {/* <td><input type = 'text' name = 'departure' value = {departure} onChange={(event)=>handleChange(index, event)}></input></td>
+            //             <td><input type = 'text' name = 'arrival' value = {arrival} onChange={(event)=>handleChange(index, event)}></input></td> */}
+            //             <td><input type = 'number' name = 'length' value = {length} onChange={(event)=>handleChange(index, event)}></input></td>
+            //             <td><input type = 'number' name = 'width' value = {width} onChange={(event)=>handleChange(index, event)}></input></td>
+            //             <td><input type = 'number' name = 'height' value = {height} onChange={(event)=>handleChange(index, event)}></input></td>
+            //             <td><input type = 'number' name = 'weight' value = {weight} onChange={(event)=>handleChange(index, event)}></input></td>
+            //             <td><input type = 'number' name = 'amount' value = {amount} onChange={(event)=>handleChange(index, event)}></input></td>
+            //         </tr>  
 
-                )
-            })
+            //     )
+            // })
         }
+
         </table>
         <div className="row">
             <button onClick={addNewItem}>Add New</button>
-            {/* <Link to = {{
-                pathname: '/calcresult',
-                state: inputs
-            }}>Submit</Link> */}
+      
             <button onClick = {handleSubmit}>Submit</button>
-            <Link to='/calcresult' state={inputs}>Calculate</Link>
+            
         </div>
 
         </div>
