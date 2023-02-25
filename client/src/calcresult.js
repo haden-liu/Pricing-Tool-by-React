@@ -21,15 +21,21 @@ export default function Calcresult (props) {
 
     console.log(data)
 
-    // data.map((object)=>[
 
-    //     axios
-    //         .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
-    //         .then((response)=>{
-    //             console.log(response.data)
-    //         })    
 
-    // ])
+    axios
+        .get(`http://localhost:8000/rates/${data['locations'].departure}/${data['locations'].arrival}`)
+        .then((response)=>{
+            console.log(response.data)
+            console.log(typeof(response.data))
+            const [detail_rate] = response.data
+            console.log(detail_rate)
+            const {carrier, discharging_port, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, valid_date} = detail_rate
+            console.log(freight_rate_min * 2)
+
+            console.log(typeof(freight_rate_min))
+        })    
+
 
     // axios.all(data.map((object)=> {
     //     axios
@@ -42,21 +48,21 @@ export default function Calcresult (props) {
 
     // }))
 
-    useEffect(()=> {
-            let basicArr = []
-            data.map((object)=>{
-            axios
-                .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
-                .then((response)=> {
-                    let list = response.data
-                    console.log(list)
-                    console.log(typeof(list))
-                    basicArr.push(list)
-                    })
-        });
-        console.log(basicArr)
+    // useEffect(()=> {
+    //         let basicArr = []
+    //         data.map((object)=>{
+    //         axios
+    //             .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
+    //             .then((response)=> {
+    //                 let list = response.data
+    //                 console.log(list)
+    //                 console.log(typeof(list))
+    //                 basicArr.push(list)
+    //                 })
+    //     });
+    //     console.log(basicArr)
         
-    },[])
+    // },[])
 
 
    
@@ -72,7 +78,7 @@ export default function Calcresult (props) {
 
             <div>
                 <p>results</p>
-                <p>{basicrates}</p>
+                <p>{data['locations'].departure}</p>
              
             </div>
         </div>

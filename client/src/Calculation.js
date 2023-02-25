@@ -15,91 +15,165 @@ import Rates from './Routes';
 import { MRT_TablePagination } from "material-react-table";
 
 export default function Calculation() {
-    // const [inputs, setInputs] = useState([{
-    //     departure:'',
-    //     arrival:'',
-    //     length: '',
-    //     width:'',
-    //     height:'',
-    //     weight:'',
-    //     amount:''
-    // }]);
-    // const [locationInputs, setLocationInputs] = useState(['Sydney'])
-    const [inputs, setInputs] = useState(
+
+
+    const [locations, setLocations] = useState(
         {
-            locations: {departure: '', arrival: ''},
-            details: [{
+            departure: '',
+            arrival: '',
+        }
+    )
+    const [inputs, setInputs] = useState(
+       [
+            {
                 length: '',
                 width:'',
                 height:'',
                 weight:'',
                 amount:''
-            }]
-        }
+            }
+        ]
+        
     )
+
+    // const [rowInputs, setRowInputs] = useState({
+    //     length: '',
+    //     width:'',
+    //     height:'',
+    //     weight:'',
+    //     amount:''
+    // })
    
 
     const nav = useNavigate()
 
     const addNewItem = () => {
-        setInputs([...inputs, {
-            locations: {departure: '', arrival: ''},
-            details: [{
-                length: '',
-                width:'',
-                height:'',
-                weight:'',
-                amount:''}]
+        setInputs([...inputs,{
+            length: '',
+            width:'',
+            height:'',
+            weight:'',
+            amount:''
         }])
+        
     }
 
-    // const addNewItem = () => {
-    //     setInputs([...inputs, {
-    //         departure:'',
-    //         arrival:'',
-    //         length: '',
-    //         width:'',
-    //         height:'',
-    //         weight:'',
-    //         amount:''
-    //     }])
-    // }
 
-    const handleChangeDept = (event) => {
+    const handleChangeDept= (event) => {
         const {name, value} = event.target
         console.log({ name, value})
-        setInputs({...inputs, locations: {
-            ...inputs.locations,
-            departure: value
-        }})
+        setLocations(
+            {...locations, departure:value}
+        )
     }
 
-    const handleChangeArriv = (event) => {
+    const handleChangeArr = (event) => {
         const {name, value} = event.target
         console.log({ name, value})
-        setInputs({...inputs, locations: {
-            ...inputs.locations,
-            arrival: value
-        }})
+        setLocations(
+            {...locations, arrival:value}
+        )
     }
 
 
-    // const handleChange = (index, event)=>{
+    const handleChangeLen = (index, event)=>{
     
-    // //     const { name, value } = event.target;
-    // //     console.log({ name, value })
-    // //     console.log(index)
-    // //     const list = [...inputs['details']];
-    // //     list[index][name]= value;
-    // //     console.log(list)
-    // //     setInputs(list);  
-     
-    // // }
+        const { name, value } = event.target;
+        console.log({ name, value })
+        console.log(index)
+
+        let update_item = inputs[index][name]
+        console.log(update_item)
+        setInputs(inputs.map((input, ind)=>{
+            if(ind === index) {
+                return {...input, length:value }
+            } else {
+                return input
+            }
+        }))
+    }
+
+    const handleChangeWid = (index, event)=>{
+    
+        const { name, value } = event.target;
+        console.log({ name, value })
+        console.log(index)
+
+   
+        setInputs(inputs.map((input, ind)=>{
+            if(ind == index) {
+                return {...input, width: value }
+            } else {
+                return input
+            }
+        }))
+    }
+
+    const handleChangeHei = (index, event)=> {
+        const { name, value } = event.target;
+        console.log({ name, value })
+        console.log(index)
+
+        let update_item = inputs[index][name]
+        console.log(update_item)
+        setInputs(inputs.map((input, ind)=>{
+            if(ind === index) {
+                return {...input, height:value }
+            } else {
+                return input
+            }
+        }))
+    }
+
+    const handleChangeWet = (index, event)=> {
+        const { name, value } = event.target;
+        console.log({ name, value })
+        console.log(index)
+
+        let update_item = inputs[index][name]
+        console.log(update_item)
+        setInputs(inputs.map((input, ind)=>{
+            if(ind === index) {
+                return {...input, weight:value }
+            } else {
+                return input
+            }
+        }))
+    }
+
+    const handleChangeAmt = (index, event)=> {
+        const { name, value } = event.target;
+        console.log({ name, value })
+        console.log(index)
+
+        let update_item = inputs[index][name]
+        console.log(update_item)
+        setInputs(inputs.map((input, ind)=>{
+            if(ind === index) {
+                return {...input, amount:value }
+            } else {
+                return input
+            }
+        }))
+    }
+
+    const handleChange = (index, event)=>{
+
+    }
+
+
     
     useEffect(()=>{
-        console.log(inputs)
+        console.log(locations)
     },[])
+
+    useEffect(()=>{
+        console.log(inputs)
+    })
     
+    // useEffect(()=>{
+    //     console.log(rowInputs)
+    // },[])
 
 
     // useEffect(()=> {
@@ -109,9 +183,13 @@ export default function Calculation() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(locations)
         console.log(inputs)
-        console.log(parseFloat(inputs[0].length) * 2)
-        nav("/calcresult", {state:inputs})
+        const payload = {
+            locations: locations,
+            details: inputs
+        }
+        nav("/calcresult", {state:payload})
         // nav('/calcresult', {state:locationInputs})
   
         
@@ -147,7 +225,7 @@ export default function Calculation() {
     
                 <tr>
                 <td><input type = 'text' name = 'departure'   onChange={(event)=>handleChangeDept(event)}></input></td>
-                <td><input type = 'text' name = 'arrival'   onChange={(event)=>handleChangeArriv(event)}></input></td>
+                <td><input type = 'text' name = 'arrival'   onChange={(event)=>handleChangeArr(event)}></input></td>
                 </tr>
             
         
@@ -165,23 +243,23 @@ export default function Calculation() {
             </tr>
 
         {
-            // inputs.map((input, index) => {
-            //     const {length, width, height, weight, amount} = input.details
+            inputs.map((input, index) => {
+                const {length, width, height, weight, amount} = input
 
-            //     return (
+                return (
                 
-            //         <tr key = {index}>
-            //             {/* <td><input type = 'text' name = 'departure' value = {departure} onChange={(event)=>handleChange(index, event)}></input></td>
-            //             <td><input type = 'text' name = 'arrival' value = {arrival} onChange={(event)=>handleChange(index, event)}></input></td> */}
-            //             <td><input type = 'number' name = 'length' value = {length} onChange={(event)=>handleChange(index, event)}></input></td>
-            //             <td><input type = 'number' name = 'width' value = {width} onChange={(event)=>handleChange(index, event)}></input></td>
-            //             <td><input type = 'number' name = 'height' value = {height} onChange={(event)=>handleChange(index, event)}></input></td>
-            //             <td><input type = 'number' name = 'weight' value = {weight} onChange={(event)=>handleChange(index, event)}></input></td>
-            //             <td><input type = 'number' name = 'amount' value = {amount} onChange={(event)=>handleChange(index, event)}></input></td>
-            //         </tr>  
+                    <tr key = {index}>
+                        {/* <td><input type = 'text' name = 'departure' value = {departure} onChange={(event)=>handleChange(index, event)}></input></td>
+                        <td><input type = 'text' name = 'arrival' value = {arrival} onChange={(event)=>handleChange(index, event)}></input></td> */}
+                        <td><input type = 'number' name = 'length'  onChange={(event)=>handleChangeLen(index, event)}></input></td>
+                        <td><input type = 'number' name = 'width'  onChange={(event)=>handleChangeWid(index, event)}></input></td>
+                        <td><input type = 'number' name = 'height'  onChange={(event)=>handleChangeHei(index, event)}></input></td>
+                        <td><input type = 'number' name = 'weight'  onChange={(event)=>handleChangeWet(index, event)}></input></td>
+                        <td><input type = 'number' name = 'amount'  onChange={(event)=>handleChangeAmt(index, event)}></input></td>
+                    </tr>  
 
-            //     )
-            // })
+                )
+            })
         }
 
         </table>
