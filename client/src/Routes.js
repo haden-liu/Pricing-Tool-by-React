@@ -4,6 +4,7 @@ import Layout from "./Layout";
 import RateList from "./RateList";
 import Calculation from "./Calculation";
 import Calcresult from "./calcresult";
+import AddRates from "./AddRate";
 
 import './App.css';
 
@@ -18,6 +19,7 @@ export default function Rates() {
                 <Route path="list" element = {<RateList />}></Route>
                 <Route path="calculation" element = {<Calculation />}></Route>
                 <Route path="calcresult" element = {<Calcresult />}></Route>
+                <Route path="addRates" element = {<AddRates />}></Route>
 
 
 

@@ -213,6 +213,10 @@ export default function Calculation() {
                 <li>
                     <Link to="/calculation">Calculation</Link>
                 </li>
+                <li>
+                    <Link to="/addRates">Add Rate</Link>
+                </li>
+
 
             </ul>
         </nav>

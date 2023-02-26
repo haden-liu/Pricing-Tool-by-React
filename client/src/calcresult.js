@@ -5,71 +5,100 @@ import { NavLink } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 import axios from 'axios';
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+
 
 
 export default function Calcresult (props) {
 
-    const [basicrates, setBasicRates] = ([])
-
     
-
-    // const { departure, arrival, length, width, height, weight, amount } = this.props.location
-    // const [details, setDetails] = useState(this.props.location.state)
     const location = useLocation()
 
     const data = location.state
 
     console.log(data)
 
+    const [amount, setAmount] = useState()
+    const [totalWet, setTotalWet] = useState()
+    const [totalVol, setTotalVol] = useState()
+    const [chargeableWet, setChargeableWet] = useState()
+    const [freightCost, setFreightCost] = useState()
+    const [fuelCost, setFuelCost] = useState()
+    const [carrier, setCarrier] = useState()
+    const [validDate, setValidDate] = useState()
+
+    const createPDF = () => {
+        const pdf = new jsPDF("portrait", "pt", "a4");
+        const data = html2canvas(document.querySelector("#pdf"));
+        pdf.html(data).then(() => {
+          pdf.save("freight_cost.pdf");
+        });
+    };
+
 
 
     axios
         .get(`http://localhost:8000/rates/${data['locations'].departure}/${data['locations'].arrival}`)
         .then((response)=>{
-            console.log(response.data)
-            console.log(typeof(response.data))
+
+            // destructing response object
             const [detail_rate] = response.data
             console.log(detail_rate)
             const {carrier, discharging_port, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, valid_date} = detail_rate
             console.log(freight_rate_min * 2)
+            console.log(data['details'])
+            setCarrier(carrier)
+            setValidDate(valid_date)
 
-            console.log(typeof(freight_rate_min))
-        })    
+            // using map function to get total volume and weight per item row
+            const rowLoadArr = data['details'].map((row)=>{
+                return {
+                        volume: (row.length * row.width * row.height) / 1000000 * row.amount,
+                        weight: row.weight * row.amount
+                    }
+            })
+            console.log(rowLoadArr)
 
+            //using reduce function to get total actual weight and total volumn
+            const totalVol = rowLoadArr.reduce((total, item) => {
+                return total + item.volume
+            }, 0)
+            console.log(totalVol)
+            setTotalVol(totalVol.toFixed(2))
 
-    // axios.all(data.map((object)=> {
-    //     axios
-    //         .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
-    //         .then((response)=> {
-    //             console.log(response.data)
-    //             let list = response.data
-                
-    //         })
+            const totalActWet = rowLoadArr.reduce((total, item)=>{
+                return total + item.weight
+            }, 0)
+            console.log(totalActWet)
+            setTotalWet(totalActWet.toFixed(2))
 
-    // }))
+            // develop logic to calculate the freight cost
+            const chargeableWet = Math.max(totalActWet,totalVol*1000/6).toFixed(2)
+            console.log(chargeableWet)
+            setChargeableWet(chargeableWet)
 
-    // useEffect(()=> {
-    //         let basicArr = []
-    //         data.map((object)=>{
-    //         axios
-    //             .get(`http://localhost:8000/rates/${object.departure}/${object.arrival}`)
-    //             .then((response)=> {
-    //                 let list = response.data
-    //                 console.log(list)
-    //                 console.log(typeof(list))
-    //                 basicArr.push(list)
-    //                 })
-    //     });
-    //     console.log(basicArr)
+            // if condition to calculate total freight cost and fuel cost
+            const freightCost = freight_rate_min >= chargeableWet * freight_rate_unit ? freight_rate_min : (chargeableWet * freight_rate_unit).toFixed(2)
+            console.log(freightCost)
+            setFreightCost(freightCost)
+
+            const fuelCost = (chargeableWet * fuel_rate).toFixed(2)
+            console.log(fuelCost)
+            setFuelCost(fuelCost)
+
+            //get total package amount
+            const totalAmt = data['details'].reduce((total, item)=>{
+                return total + parseInt(item.amount)
+            },0)
+            console.log(totalAmt)
+
+            setAmount(totalAmt)
+
+       
         
-    // },[])
+        })   
 
-
-   
-    
-
-    // const { departure, arrival, length, width, height, weight, amount } = (props.location && props.location.state) || {};
-    // console.log(props.inputs)
     return (
         <div>
             <NavLink to='/calculation'>
@@ -77,8 +106,16 @@ export default function Calcresult (props) {
             </NavLink>
 
             <div>
-                <p>results</p>
-                <p>{data['locations'].departure}</p>
+                <div id='pdf'>
+                    <h2 id = 'rate_header'>Our Offer</h2>
+                    <p>Shipping {amount} items from {data['locations'].departure} to {data['locations'].arrival}</p>
+                    <p>With total volume {totalVol} CBM, total weight {totalWet} KG, and the chargeable weight {chargeableWet} KG based on the ratio 6 CBM = 1000 KG</p>
+                    <p>The freight cost is AUD ${freightCost} and the freight surcharge is AUD ${fuelCost}</p>
+                    <p>The carrier is {carrier} and rate valid to {validDate}</p>
+                    <p>Above costs subjects to GST</p>
+                </div>
+                <button onClick={createPDF}>Export to PDF</button>
+ 
              
             </div>
         </div>

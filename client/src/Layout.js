@@ -16,6 +16,10 @@ export default function Layout() {
                     <li>
                         <Link to="/calculation">Calculation</Link>
                     </li>
+                    <li>
+                        <Link to="/addRates">Calculation</Link>
+                    </li>
+
 
                 </ul>
 
