@@ -43,9 +43,11 @@ export default function Calculation() {
     //     weight:'',
     //     amount:''
     // })
-   
 
     const nav = useNavigate()
+   
+
+   
 
     const addNewItem = () => {
         setInputs([...inputs,{
@@ -101,7 +103,7 @@ export default function Calculation() {
 
    
         setInputs(inputs.map((input, ind)=>{
-            if(ind == index) {
+            if(ind === index) {
                 return {...input, width: value }
             } else {
                 return input

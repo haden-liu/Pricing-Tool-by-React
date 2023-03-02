@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import moment from "moment";
 
 import { Link } from 'react-router-dom';
 
@@ -114,7 +115,7 @@ export default function RateList() {
                             <TableCell align="right">{rate.fuel_rate}</TableCell>
                             <TableCell align="right">{rate.loading_port}</TableCell>
                             <TableCell align="right">{rate.discharging_port}</TableCell>
-                            <TableCell align="right">{rate.valid_date.split(/[-T]/)[0]}-{rate.valid_date.split(/[-T]/)[1]}-{rate.valid_date.split(/[-T]/)[2]} </TableCell>
+                            <TableCell align="right">{moment(rate.valid_date).utc().format('YYYY-MM-DD')} </TableCell>
                             <TableCell align="right"><button id={rate.id} onClick={handleDelete}>Delete</button></TableCell>
                             </TableRow>
                         ))}

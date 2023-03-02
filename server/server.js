@@ -49,10 +49,32 @@ app.get('/rates/:departure/:arrival', (req, res)=>{
 
     db.query(sql).then(({ rows }) => {
 
-  
-          res.json(rows)
+        if(rows.length === 0) {
+            return res.status(404).json({message: 'unable to find result'})
+        } else {
+            return res.json(rows)
+        }
     
 })})
+
+// post rates
+app.post('/rates', (req, res)=> {
+    console.log(req.body)
+
+    const [carrier, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, discharging_port,  valid_date] = req.body
+
+    const sql = `
+    insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values (${carrier}, ${freight_rate_min}, ${freight_rate_unit}, ${fuel_rate}, ${loading_port}, ${discharging_port}, ${valid_date})
+    `
+    db.query(sql, [carrier, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, discharging_port,  valid_date]).then((dbRes) => {
+     
+          res.json({ success: true })
+
+
+    })})
+
+
+
 
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);

@@ -5,6 +5,8 @@ import RateList from "./RateList";
 import Calculation from "./Calculation";
 import Calcresult from "./calcresult";
 import AddRates from "./AddRate";
+import EmptyResult from "./emptyResult";
+
 
 import './App.css';
 
@@ -20,6 +22,9 @@ export default function Rates() {
                 <Route path="calculation" element = {<Calculation />}></Route>
                 <Route path="calcresult" element = {<Calcresult />}></Route>
                 <Route path="addRates" element = {<AddRates />}></Route>
+                <Route path="emptyResult" element = {<EmptyResult />}></Route>
+                
+
 
 
 

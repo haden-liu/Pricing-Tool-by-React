@@ -1,0 +1,3 @@
+﻿carrier,freight_rate_min,freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date
+Qantas,129,10.4,0.95,Jakarta,Brisbane,2023-03-15
+Air New Zealand,130,10.3,0.9,Christchurch,Perth,2023-03-20
