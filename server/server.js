@@ -64,7 +64,7 @@ app.post('/rates', (req, res)=> {
     const [carrier, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, discharging_port,  valid_date] = req.body
 
     const sql = `
-    insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values (${carrier}, ${freight_rate_min}, ${freight_rate_unit}, ${fuel_rate}, ${loading_port}, ${discharging_port}, ${valid_date})
+    insert into rates (carrier, freight_rate_min, freight_rate_unit,fuel_rate,loading_port,discharging_port,valid_date) values ($1, $2, $3, $4, $5, $6, $7)
     `
     db.query(sql, [carrier, freight_rate_min, freight_rate_unit, fuel_rate, loading_port, discharging_port,  valid_date]).then((dbRes) => {
      

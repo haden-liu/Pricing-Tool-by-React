@@ -12,6 +12,8 @@ export default function EmptyResult(){
     return(
         <div>
             <h2>We can not find any rate based on your search.</h2>
+            <h2>Please contact our team directly.</h2>
+
             <button onClick={backtoCalc}>Back to Search</button>
         </div>
     )
