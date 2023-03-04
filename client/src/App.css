@@ -27,6 +27,38 @@ nav ul li {
   margin:15px 30px
 }
 
+#rate_header {
+  text-align: center;
+  margin:40px;
+  font-size: 30px;
+}
+
+#calc_result {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  margin:20px
+}
+#results {
+  margin: 10px 20px 20px 10px
+}
+#results p {
+  font-size: 20px;
+}
+#notes {
+  margin:10px 20px 20px 10px 
+}
+#notes p {
+  font-size: 15px;
+}
+
+#return_btn {
+  margin: 30px
+}
+
+
+
 #title {
   text-align: center;
   margin:20px
@@ -34,6 +66,14 @@ nav ul li {
 
 #intro_div p {
   text-align: center;
+}
+
+.add_rate_title {
+  margin:30px;
+}
+#calc_function {
+  margin: 30px;
+  justify-content: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {

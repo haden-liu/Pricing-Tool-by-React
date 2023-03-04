@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { HistoryRouterProps } from "react-router-dom";
 
 import './App.css';
 
@@ -36,19 +35,9 @@ export default function Calculation() {
         
     )
 
-    // const [rowInputs, setRowInputs] = useState({
-    //     length: '',
-    //     width:'',
-    //     height:'',
-    //     weight:'',
-    //     amount:''
-    // })
 
     const nav = useNavigate()
    
-
-   
-
     const addNewItem = () => {
         setInputs([...inputs,{
             length: '',
@@ -223,7 +212,8 @@ export default function Calculation() {
             </ul>
         </nav>
         <p className="add_rate_title">Rate Calculation Form</p>
-        <table>
+        <div id = 'calc_function'>
+        <table id = 'location_table'>
             <tr>
                 <th>Departure</th>
                 <th>Arrival</th>
@@ -237,10 +227,8 @@ export default function Calculation() {
         
         </table>
 
-        <table>
+        <table id = 'details_table'>
             <tr>
-                {/* <th>Departure</th>
-                <th>Arrival</th> */}
                 <th>Length</th>
                 <th>Width</th>
                 <th>height</th>
@@ -255,8 +243,7 @@ export default function Calculation() {
                 return (
                 
                     <tr key = {index}>
-                        {/* <td><input type = 'text' name = 'departure' value = {departure} onChange={(event)=>handleChange(index, event)}></input></td>
-                        <td><input type = 'text' name = 'arrival' value = {arrival} onChange={(event)=>handleChange(index, event)}></input></td> */}
+
                         <td><input type = 'number' name = 'length'  onChange={(event)=>handleChangeLen(index, event)}></input></td>
                         <td><input type = 'number' name = 'width'  onChange={(event)=>handleChangeWid(index, event)}></input></td>
                         <td><input type = 'number' name = 'height'  onChange={(event)=>handleChangeHei(index, event)}></input></td>
@@ -269,11 +256,12 @@ export default function Calculation() {
         }
 
         </table>
-        <div className="row">
+        <div id = 'add_submit' className="row">
             <button onClick={addNewItem}>Add New</button>
       
             <button onClick = {handleSubmit}>Submit</button>
             
+        </div>
         </div>
 
         </div>

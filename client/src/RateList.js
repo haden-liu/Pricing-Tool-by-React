@@ -53,9 +53,7 @@ export default function RateList() {
 
 
   useEffect(() => {
-    // fetch("http://localhost:8000/rates")
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
+
     axios
         .get("http://localhost:8000/rates")
         .then((response) => {
