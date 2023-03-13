@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 
+import GenericPdfDownloader from './DownloadPDF';
 
 
 
@@ -107,26 +108,37 @@ export default function Calcresult (props) {
 
     return (
         <div>
-            <div>
-    
+            <div >
+                <div id = 'divToDownload'>
                 <h2 id = 'rate_header'>Our Offer</h2>
                 <div id='calc_result'>
                     <div id = 'results'>
                         <p>Shipping {amount} items from {data['locations'].departure} to {data['locations'].arrival}</p>
-                        <p>With total volume {totalVol} CBM, total weight {totalWet} KG, and the chargeable weight {chargeableWet} KG</p>
-                        <p>The freight cost is AUD ${freightCost} and the fuel surcharge is AUD ${fuelCost}</p>
-                        <p>The carrier is {carrier} and rate valid to {(new Date(validDate)).toLocaleDateString()}</p>
+                        <p>Total volume {totalVol} CBM</p> 
+                        <p>total weight {totalWet} KG</p>
+                        <p>the chargeable weight {chargeableWet} KG</p>
+                        <p>The freight cost is AUD ${freightCost} </p>
+                        <p>The fuel surcharge is AUD ${fuelCost}</p>
+                        <p>The carrier is {carrier}</p> 
+                        <p>and rate valid to {(new Date(validDate)).toLocaleDateString()}</p>
                     </div>
                     <div id = 'notes'>
                         <p>Above costs subjects to GST</p>
-                        <p>Chargeable weight based on the ratio 6 CBM = 1000 KG</p>
+                        <p>CBM/Weight ratio 6 CBM = 1000 KG</p>
                     </div>
                 </div>
+                </div>
+            
 
 
                 <button id = 'return_btn' onClick={backtoCalc}>
                     Back to Calculation
                 </button>
+
+                <GenericPdfDownloader 
+                    downloadFileName="CustomPdf" 
+                    rootElementId="divToDownload" />
+
                 
             </div>
             

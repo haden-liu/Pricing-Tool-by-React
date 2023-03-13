@@ -180,7 +180,12 @@ export default function Calculation() {
             locations: locations,
             details: inputs
         }
-        nav("/calcresult", {state:payload})
+        if(inputs.some(input => input.height>=160)) {
+            nav("/heightlmt")
+        } else {
+            nav("/calcresult", {state:payload})
+        }
+        // nav("/calcresult", {state:payload})
         // nav('/calcresult', {state:locationInputs})
   
         
